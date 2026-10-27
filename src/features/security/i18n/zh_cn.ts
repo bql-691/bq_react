@@ -1,0 +1,14 @@
+export const zhCN = {
+  title: '示例应用',
+  login_tab: '账户登录',
+  register_tab: '新用户注册',
+  username_placeholder: '请输入用户名',
+  password_placeholder: '请输入密码',
+  confirm_password_placeholder: '请再次确认登录密码',
+  btn_login: '立 即 登 录',
+  btn_register: '注 册 账 户',
+  err_username_length: '用户名长度不能少于 3 位',
+  err_password_length: '密码长度不能少于 6 位',
+  err_password_mismatch: '两次输入的密码不一致',
+  err_empty: '账户凭证输入不能为空',
+};

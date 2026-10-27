@@ -1,0 +1,51 @@
+{
+  "name": "bq_react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "debug": "react-router dev --mode debug",
+    "dev": "react-router dev --mode development",
+    "prod": "react-router dev --mode production",
+    "build": "react-router build --mode development",
+    "build:prod": "react-router build --mode production",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.3.4",
+    "antd": "^6.6.7",
+    "axios": "^1.20.0",
+    "i18next": "^26.5.10",
+    "i18next-browser-languagedetector": "^8.2.2",
+    "inversify": "^8.2.3",
+    "isbot": "^5",
+    "mobx": "^7.1.1",
+    "mobx-keystone": "^2.4.1",
+    "mobx-react-lite": "^5.1.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-i18next": "^17.1.8",
+    "react-router": "^8.5.0",
+    "reflect-metadata": "^0.2.2",
+    "sass": "^1.106.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@react-router/dev": "^8.5.0",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "eslint": "^10.13.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4"
+  }
+}

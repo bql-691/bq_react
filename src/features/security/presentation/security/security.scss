@@ -1,0 +1,31 @@
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+
+  .auth-card {
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    background: #fff;
+
+    .undo-redo-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .error-alert {
+      margin-bottom: 16px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 16px;
+    }
+  }
+}
