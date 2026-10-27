@@ -10,10 +10,10 @@ React 应用脚手架。创建新项目时，包名、源码和 `src` 下文件�
 
 ## 创建项目
 
-需要 Node.js，以及已登录的 GitHub CLI（`gh auth login`）。
+需要 Node.js 和 curl。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/bql-691/bq_react/v0.1.0/scripts/create.sh | bash -s -- shop
+curl -fsSL https://raw.githubusercontent.com/bql-691/bq_react/v0.1.1/scripts/create.sh | bash -s -- shop
 ```
 
 这会在当前目录生成 `shop`，并执行 `npm install`。

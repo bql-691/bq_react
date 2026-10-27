@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # 从公开 GitHub 仓库创建项目，并把源码中的 bq 前缀换成项目名。
 # 用法:
-#   curl -fsSL https://raw.githubusercontent.com/bql-691/bq_react/v0.1.0/scripts/create.sh | bash -s -- shop
+#   curl -fsSL https://raw.githubusercontent.com/bql-691/bq_react/v0.1.1/scripts/create.sh | bash -s -- shop
 set -euo pipefail
 
 OWNER="bql-691"
 REPO="bq_react"
-REF="${BQ_REF:-v0.1.0}"
+REF="${BQ_REF:-v0.1.1}"
 NAME="${1:-}"
 
 if [[ ! "$NAME" =~ ^[a-z][a-z0-9-]*$ ]]; then
@@ -20,16 +20,12 @@ if [[ -e "$NAME" ]]; then
   exit 1
 fi
 
-command -v gh >/dev/null 2>&1 || {
-  echo "需要 GitHub CLI。安装后执行: gh auth login" >&2
+command -v curl >/dev/null 2>&1 || {
+  echo "需要 curl" >&2
   exit 1
 }
 command -v node >/dev/null 2>&1 || {
   echo "需要 Node.js" >&2
-  exit 1
-}
-gh auth status >/dev/null 2>&1 || {
-  echo "请先登录 GitHub CLI: gh auth login" >&2
   exit 1
 }
 
@@ -38,8 +34,9 @@ cleanup() { rm -rf "$TMP"; }
 trap cleanup EXIT
 
 ARCHIVE="$TMP/src.tar.gz"
-if ! gh api "repos/${OWNER}/${REPO}/tarball/${REF}" >"$ARCHIVE"; then
-  echo "下载失败。请确认 ${OWNER}/${REPO} 上存在引用 ${REF}。" >&2
+URL="https://github.com/${OWNER}/${REPO}/archive/refs/tags/${REF}.tar.gz"
+if ! curl -fsSL "$URL" -o "$ARCHIVE"; then
+  echo "下载失败。请确认 ${OWNER}/${REPO} 上存在标签 ${REF}。" >&2
   exit 1
 fi
 if ! tar -tzf "$ARCHIVE" >/dev/null 2>&1; then
