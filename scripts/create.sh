@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # 从公开 GitHub 仓库创建项目，并把源码中的 bq 前缀换成项目名。
 # 用法:
-#   curl -fsSL https://raw.githubusercontent.com/bqbqbqbqbq-l/bq_react/v0.1.0/scripts/create.sh | bash -s -- shop
+#   curl -fsSL https://raw.githubusercontent.com/bql-691/bq_react/v0.1.0/scripts/create.sh | bash -s -- shop
 set -euo pipefail
 
-OWNER="bqbqbqbqbq-l"
+OWNER="bql-691"
 REPO="bq_react"
 REF="${BQ_REF:-v0.1.0}"
 NAME="${1:-}"
