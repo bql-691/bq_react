@@ -11,10 +11,10 @@
 
 依赖注入提供全库共用的根容器，并把功能模块的端口绑定到具体实现。容器默认单例，且对带 `@injectable` 的类自动绑定。
 
-| 入口 | 文件 | 定义 |
-|---|---|---|
-| `rootContainer` | `src/app/di/root_container.ts` | 根容器。`autobind` 打开，`defaultScope` 为 `Singleton` |
-| `bindAs(port, name?)` | `src/app/di/bind_as.ts` | 把抽象端口绑定到实现类。同一端口有多个实现时传入 `name` |
+| 入口                  | 文件                           | 定义                                                    |
+| --------------------- | ------------------------------ | ------------------------------------------------------- |
+| `rootContainer`       | `src/app/di/root_container.ts` | 根容器。`autobind` 打开，`defaultScope` 为 `Singleton`  |
+| `bindAs(port, name?)` | `src/app/di/bind_as.ts`        | 把抽象端口绑定到实现类。同一端口有多个实现时传入 `name` |
 
 ## 使用示例
 

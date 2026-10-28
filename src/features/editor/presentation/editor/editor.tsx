@@ -37,14 +37,20 @@ export default observer(function EditorPage() {
   return (
     <main className="editor-page">
       <div className="editor-toolbar">
-        <Button type="link" onClick={() => window.location.href = '/'}>
+        <Button type="link" onClick={() => (window.location.href = '/')}>
           Home
         </Button>
         <span>{vm.project?.name ?? 'Editor'}</span>
-        <Button type={vm.tool === EditorTool.LINE ? 'primary' : 'default'} onClick={() => vm.setTool(EditorTool.LINE)}>
+        <Button
+          type={vm.tool === EditorTool.LINE ? 'primary' : 'default'}
+          onClick={() => vm.setTool(EditorTool.LINE)}
+        >
           直线
         </Button>
-        <Button type={vm.tool === EditorTool.RECT ? 'primary' : 'default'} onClick={() => vm.setTool(EditorTool.RECT)}>
+        <Button
+          type={vm.tool === EditorTool.RECT ? 'primary' : 'default'}
+          onClick={() => vm.setTool(EditorTool.RECT)}
+        >
           矩形
         </Button>
         <Button onClick={() => vm.undo()} disabled={!vm.canUndo}>
@@ -74,7 +80,13 @@ export default observer(function EditorPage() {
           shape instanceof LineShape ? (
             <line key={shape.id} x1={shape.x1} y1={shape.y1} x2={shape.x2} y2={shape.y2} />
           ) : shape instanceof RectShape ? (
-            <rect key={shape.id} x={shape.x} y={shape.y} width={shape.width} height={shape.height} />
+            <rect
+              key={shape.id}
+              x={shape.x}
+              y={shape.y}
+              width={shape.width}
+              height={shape.height}
+            />
           ) : null,
         )}
         {vm.draft && <Draft draft={vm.draft} />}

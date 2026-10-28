@@ -1,6 +1,5 @@
 import '../../security';
 
-import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Card, Tabs, Input, Button, Alert, Space } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -13,7 +12,7 @@ import { AuthEnum } from '../../domain/enum/auth_enum';
 
 import './security.scss';
 
-export const SecurityView: React.FC = observer(() => {
+export default observer(function SecurityView() {
   const vm = useViewModel<SecurityViewModel>(SecurityViewModel);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -95,5 +94,3 @@ export const SecurityView: React.FC = observer(() => {
     </div>
   );
 });
-
-export default SecurityView;

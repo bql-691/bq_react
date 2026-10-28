@@ -57,8 +57,8 @@ src/features/project/
 
 状态：`projects`、`errorMessage`。
 
-| 方法 | 说明 |
-|---|---|
+| 方法                                       | 说明                                            |
+| ------------------------------------------ | ----------------------------------------------- |
 | `load(store: ProjectStore): Promise<void>` | 调用 `ProjectApplication.list`，写入 `projects` |
 
 `ProjectStore` 定义在 `domain/enum/project_store.ts`。`ProjectListPage` 在进入页面时调用 `load`。本地页传入 `ProjectStore.LOCAL`，远程页传入 `ProjectStore.REMOTE`。
@@ -67,14 +67,14 @@ src/features/project/
 
 `Project` 是聚合根。外部只通过它修改文档和图形。
 
-| 类型 | 文件 | 定义 |
-|---|---|---|
-| `Project` | `src/features/project/domain/entities/project.ts` | 聚合根。持有 `id`、`name`、`updatedAt`、`document`，以及撤销栈 |
-| `ProjectStore` | `src/features/project/domain/enum/project_store.ts` | 存储位置。`LOCAL` 与 `REMOTE` |
-| `Document` | `src/features/project/domain/entities/document.ts` | 聚合内部的图形文档，持有 `shapes` |
-| `LineShape` | 同上 | 一条线段 |
-| `RectShape` | 同上 | 一个矩形 |
-| `IProjectRepository` | `src/features/project/domain/repositories/i_project_repository.ts` | `list`、`get`、`save`。不区分存储位置 |
+| 类型                 | 文件                                                               | 定义                                                           |
+| -------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------- |
+| `Project`            | `src/features/project/domain/entities/project.ts`                  | 聚合根。持有 `id`、`name`、`updatedAt`、`document`，以及撤销栈 |
+| `ProjectStore`       | `src/features/project/domain/enum/project_store.ts`                | 存储位置。`LOCAL` 与 `REMOTE`                                  |
+| `Document`           | `src/features/project/domain/entities/document.ts`                 | 聚合内部的图形文档，持有 `shapes`                              |
+| `LineShape`          | 同上                                                               | 一条线段                                                       |
+| `RectShape`          | 同上                                                               | 一个矩形                                                       |
+| `IProjectRepository` | `src/features/project/domain/repositories/i_project_repository.ts` | `list`、`get`、`save`。不区分存储位置                          |
 
 ```mermaid
 classDiagram

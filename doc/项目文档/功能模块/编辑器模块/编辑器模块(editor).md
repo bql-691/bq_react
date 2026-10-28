@@ -43,25 +43,25 @@ src/features/editor/
 
 状态：`project`、`store`、`tool`、`draft`、`errorMessage`。撤销栈不在这里。
 
-| 方法 | 说明 |
-|---|---|
-| `open(id: string, store: string \| null): Promise<void>` | 按 `store` 读取 `Project`，并清空 `draft` |
-| `setTool(tool: EditorTool): void` | 切换 `EditorTool.LINE` 或 `EditorTool.RECT` |
-| `pointerDown(x: number, y: number): void` | 在已有项目时记下草稿起点 |
-| `pointerMove(x: number, y: number): void` | 更新草稿终点 |
-| `pointerUp(): void` | 用草稿调用 `Project.addShape`，接受后保存 |
-| `undo(): void` | 调用 `Project.undo`，成功后保存 |
-| `redo(): void` | 调用 `Project.redo`，成功后保存 |
+| 方法                                                     | 说明                                        |
+| -------------------------------------------------------- | ------------------------------------------- |
+| `open(id: string, store: string \| null): Promise<void>` | 按 `store` 读取 `Project`，并清空 `draft`   |
+| `setTool(tool: EditorTool): void`                        | 切换 `EditorTool.LINE` 或 `EditorTool.RECT` |
+| `pointerDown(x: number, y: number): void`                | 在已有项目时记下草稿起点                    |
+| `pointerMove(x: number, y: number): void`                | 更新草稿终点                                |
+| `pointerUp(): void`                                      | 用草稿调用 `Project.addShape`，接受后保存   |
+| `undo(): void`                                           | 调用 `Project.undo`，成功后保存             |
+| `redo(): void`                                           | 调用 `Project.redo`，成功后保存             |
 
 `store` 只记录这次页面从本地还是远程打开，供 `ProjectApplication.get` 和 `save` 选择仓储。
 
 ## 核心模型
 
-编辑器定义当前工具和未落笔的草稿。已提交的图形和撤销规则仍在项目模块的 `Project` 上，见 [项目模块](../项目模块/项目模块(project).md)。
+编辑器定义当前工具和未落笔的草稿。已提交的图形和撤销规则仍在项目模块的 `Project` 上，见 [项目模块](<../项目模块/项目模块(project).md>)。
 
-| 类型 | 文件 | 定义 |
-|---|---|---|
-| `EditorTool` | `src/features/editor/domain/enum/editor_tool.ts` | 当前工具。`LINE` 与 `RECT` |
+| 类型         | 文件                                                 | 定义                                     |
+| ------------ | ---------------------------------------------------- | ---------------------------------------- |
+| `EditorTool` | `src/features/editor/domain/enum/editor_tool.ts`     | 当前工具。`LINE` 与 `RECT`               |
 | `DraftShape` | `src/features/editor/domain/entities/draft_shape.ts` | 一笔尚未提交的草稿。持有工具和起点、终点 |
 
 ```mermaid

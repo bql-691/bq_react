@@ -8,7 +8,10 @@ export default [
     ]),
     layout('routes/layouts/auth.layout.tsx', [
       route('profile', '../features/security/presentation/security/profile.tsx'),
-      route('projects/remote', '../features/project/presentation/remote_list/remote_project_list.tsx'),
+      route(
+        'projects/remote',
+        '../features/project/presentation/remote_list/remote_project_list.tsx',
+      ),
       route('projects/local', '../features/project/presentation/local_list/local_project_list.tsx'),
       route('editor/:projectId', '../features/editor/presentation/editor/editor.tsx'),
     ]),

@@ -59,9 +59,10 @@ export class SecurityViewModel extends PageViewModel {
       await this.application.register(this.registerForm);
       runInAction(() => this.switchTab(AuthEnum.LOGIN));
       return false;
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Error';
       runInAction(() => {
-        this.errorMessage = err.message || 'Error';
+        this.errorMessage = message;
       });
       return false;
     } finally {

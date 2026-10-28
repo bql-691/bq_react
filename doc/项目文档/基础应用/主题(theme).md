@@ -11,15 +11,15 @@
 
 主题保存 `light`、`dark` 或 `system`，解析成实际的 `light` 或 `dark`，并交给界面库。
 
-| 入口 | 文件 | 定义 |
-|---|---|---|
-| `getThemeMode()` | `src/app/theme/theme.ts` | 读取保存的 `ThemeMode`，缺省为 `system` |
-| `resolveTheme(mode)` | 同上 | 把 `ThemeMode` 解析为 `ResolvedTheme` |
-| `setThemeMode(mode)` | 同上 | 保存模式、涂色，并通知订阅者 |
-| `subscribeTheme(listener)` | 同上 | 订阅主题变化 |
-| `useThemeMode()` | `src/app/theme/use_theme.ts` | 读取当前 `ThemeMode` |
-| `useResolvedTheme()` | 同上 | 读取当前 `ResolvedTheme` |
-| `antdTheme(resolved)` | `src/app/theme/antd_theme.ts` | 按解析结果选择界面库算法 |
+| 入口                       | 文件                          | 定义                                    |
+| -------------------------- | ----------------------------- | --------------------------------------- |
+| `getThemeMode()`           | `src/app/theme/theme.ts`      | 读取保存的 `ThemeMode`，缺省为 `system` |
+| `resolveTheme(mode)`       | 同上                          | 把 `ThemeMode` 解析为 `ResolvedTheme`   |
+| `setThemeMode(mode)`       | 同上                          | 保存模式、涂色，并通知订阅者            |
+| `subscribeTheme(listener)` | 同上                          | 订阅主题变化                            |
+| `useThemeMode()`           | `src/app/theme/use_theme.ts`  | 读取当前 `ThemeMode`                    |
+| `useResolvedTheme()`       | 同上                          | 读取当前 `ResolvedTheme`                |
+| `antdTheme(resolved)`      | `src/app/theme/antd_theme.ts` | 按解析结果选择界面库算法                |
 
 ## 使用示例
 

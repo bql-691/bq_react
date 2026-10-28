@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
+import type { Newable } from 'inversify';
 import type { PageViewModel } from './page_view_model';
 import { rootContainer } from '../di/root_container';
 
-export function useViewModel<T extends PageViewModel>(identifier: new (...args: any[]) => T): T {
+export function useViewModel<T extends PageViewModel>(identifier: Newable<T>): T {
   const [viewModel] = useState(() => {
     const vm = rootContainer.get(identifier);
     vm.created();

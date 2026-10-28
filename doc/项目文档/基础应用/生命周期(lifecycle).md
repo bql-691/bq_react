@@ -11,10 +11,10 @@
 
 生命周期负责创建页面 ViewModel，并在进入、刷新、离开时回调。
 
-| 入口 | 文件 | 定义 |
-|---|---|---|
-| `PageViewModel` | `src/app/lifecycle/page_view_model.ts` | 页面 ViewModel 的基类。回调为 `created`、`ready`、`beforeRefresh`、`dispose` |
-| `useViewModel(identifier)` | `src/app/lifecycle/use_view_model.ts` | 从根容器取出 ViewModel，并接上上述回调 |
+| 入口                       | 文件                                   | 定义                                                                         |
+| -------------------------- | -------------------------------------- | ---------------------------------------------------------------------------- |
+| `PageViewModel`            | `src/app/lifecycle/page_view_model.ts` | 页面 ViewModel 的基类。回调为 `created`、`ready`、`beforeRefresh`、`dispose` |
+| `useViewModel(identifier)` | `src/app/lifecycle/use_view_model.ts`  | 从根容器取出 ViewModel，并接上上述回调                                       |
 
 ## 使用示例
 

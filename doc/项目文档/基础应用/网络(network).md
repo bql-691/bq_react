@@ -11,12 +11,12 @@
 
 网络提供两个 HTTP 客户端。`Http` 访问本站接口，自动附带凭证，并在 401 时清除凭证。`ExternalHttp` 访问第三方接口，响应体原样返回。
 
-| 入口 | 文件 | 定义 |
-|---|---|---|
-| `Http.instance` | `src/app/network/http.ts` | 本站 Axios 实例。请求拦截器读取凭证，响应拦截器按 `code` 解包 |
-| `ExternalHttp.instance` | `src/app/network/external_http.ts` | 第三方 Axios 实例。成功时返回 `response.data` |
+| 入口                    | 文件                               | 定义                                                          |
+| ----------------------- | ---------------------------------- | ------------------------------------------------------------- |
+| `Http.instance`         | `src/app/network/http.ts`          | 本站 Axios 实例。请求拦截器读取凭证，响应拦截器按 `code` 解包 |
+| `ExternalHttp.instance` | `src/app/network/external_http.ts` | 第三方 Axios 实例。成功时返回 `response.data`                 |
 
-`Http` 在响应 `code` 不是 200 时拒绝。状态码为 401 时调用 `TokenStore.remove`。凭证如何保存见 [会话](./会话(session).md)。
+`Http` 在响应 `code` 不是 200 时拒绝。状态码为 401 时调用 `TokenStore.remove`。凭证如何保存见 [会话](<./会话(session).md>)。
 
 ## 使用示例
 

@@ -40,11 +40,11 @@ src/features/home/
 
 状态：`cloudProjects`、`localProjects`、`errorMessage`。
 
-| 方法 | 说明 |
-|---|---|
-| `ready(): Promise<void>` | 进入页面时调用 `reload` |
-| `reload(): Promise<void>` | 调用 `ProjectApplication.list(ProjectStore.REMOTE)` 和 `list(ProjectStore.LOCAL)` |
-| `createLocal(): Promise<Project>` | 调用 `ProjectApplication.create(ProjectStore.LOCAL)` |
+| 方法                              | 说明                                                                              |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| `ready(): Promise<void>`          | 进入页面时调用 `reload`                                                           |
+| `reload(): Promise<void>`         | 调用 `ProjectApplication.list(ProjectStore.REMOTE)` 和 `list(ProjectStore.LOCAL)` |
+| `createLocal(): Promise<Project>` | 调用 `ProjectApplication.create(ProjectStore.LOCAL)`                              |
 
 `local` 和 `remote` 是传给用例的 `store`，用来选择仓储。它们不是 `Project` 的属性。
 

@@ -38,9 +38,12 @@ function ProjectSection({
         ) : (
           <ul className="home-projects-list">
             {visible.map((project) => (
-              <li key={project.id} onClick={() => {
-                window.location.href = `/editor/${project.id}?store=${store}`;
-              }}>
+              <li
+                key={project.id}
+                onClick={() => {
+                  window.location.href = `/editor/${project.id}?store=${store}`;
+                }}
+              >
                 {project.name}
               </li>
             ))}

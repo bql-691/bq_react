@@ -6,8 +6,12 @@ import { IProjectRepository } from '../domain/repositories/i_project_repository'
 @injectable('Singleton')
 export class ProjectApplication {
   constructor(
-    @inject(IProjectRepository) @named(ProjectStore.LOCAL) private localRepository: IProjectRepository,
-    @inject(IProjectRepository) @named(ProjectStore.REMOTE) private remoteRepository: IProjectRepository,
+    @inject(IProjectRepository)
+    @named(ProjectStore.LOCAL)
+    private localRepository: IProjectRepository,
+    @inject(IProjectRepository)
+    @named(ProjectStore.REMOTE)
+    private remoteRepository: IProjectRepository,
   ) {}
 
   list(store: ProjectStore): Promise<Project[]> {

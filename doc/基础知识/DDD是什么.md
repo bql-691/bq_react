@@ -13,12 +13,12 @@
 
 一个功能模块在 `src/features/<name>/` 下按层分目录。
 
-| 层 | 放什么 | 不放什么 |
-|---|---|---|
-| `domain` | 聚合根、值对象、领域方法、端口 | React、`src/app`、本地或远程的说法 |
-| `application` | 用例。一次业务动作，例如登录、按 `store` 保存项目 | 页面状态、axios、IndexedDB |
-| `infra` | 端口的实现。访问网络或本地库，并把接口数据收成领域对象 | 页面和 ViewModel |
-| `presentation` | 页面和 ViewModel | 领域规则，例如笔画长短、撤销栈 |
+| 层             | 放什么                                                 | 不放什么                           |
+| -------------- | ------------------------------------------------------ | ---------------------------------- |
+| `domain`       | 聚合根、值对象、领域方法、端口                         | React、`src/app`、本地或远程的说法 |
+| `application`  | 用例。一次业务动作，例如登录、按 `store` 保存项目      | 页面状态、axios、IndexedDB         |
+| `infra`        | 端口的实现。访问网络或本地库，并把接口数据收成领域对象 | 页面和 ViewModel                   |
+| `presentation` | 页面和 ViewModel                                       | 领域规则，例如笔画长短、撤销栈     |
 
 没有内容的层不建空目录。首页只有 `presentation`，因为它不持有自己的用例，列表和新建都调用 `ProjectApplication`。
 
@@ -28,12 +28,12 @@
 
 `Project` 是项目聚合的根。文件：`src/features/project/domain/entities/project.ts`。外部通过它的方法改文档：
 
-| 方法 | 作用 |
-|---|---|
-| `Project.create(name)` | 新建一个项目 |
-| `addShape(shape)` | 位移小于 2 时拒绝；接受后把当前 `Document` 快照记进聚合，再加入图形 |
-| `undo()` / `redo()` | 在聚合内部的 `past`、`future` 之间恢复 `Document` |
-| `touch()` | 更新 `updatedAt`。保存前由用例调用 |
+| 方法                   | 作用                                                                |
+| ---------------------- | ------------------------------------------------------------------- |
+| `Project.create(name)` | 新建一个项目                                                        |
+| `addShape(shape)`      | 位移小于 2 时拒绝；接受后把当前 `Document` 快照记进聚合，再加入图形 |
+| `undo()` / `redo()`    | 在聚合内部的 `past`、`future` 之间恢复 `Document`                   |
+| `touch()`              | 更新 `updatedAt`。保存前由用例调用                                  |
 
 `Document.addShape` 只由 `Project` 调用。`past` 和 `future` 是聚合上的普通字段，不是 `tProp`，所以 `getSnapshot(project)` 不会把撤销栈写进本地库或接口。
 

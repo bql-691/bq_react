@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import i18n from 'i18next';
+import i18n, { type TOptions } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { buildResources } from './catalog';
@@ -33,7 +33,7 @@ export class I18n {
   /**
    * 💡 通用翻译代理方法
    */
-  public translate(key: string, options?: any): string {
+  public translate(key: string, options?: TOptions): string {
     return i18n.t(key, options) as string;
   }
 

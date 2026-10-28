@@ -11,12 +11,12 @@
 
 数据库打开名为 `local_db` 的 IndexedDB，并按 `schemaVersions` 从旧版本逐级升级。
 
-| 入口 | 文件 | 定义 |
-|---|---|---|
-| `Database.open()` | `src/app/db/database.ts` | 打开数据库。同一时刻复用同一次打开 |
-| `Database.reset()` | 同上 | 关闭进行中的打开，并删除 `local_db` |
-| `schemaVersions` | `src/app/db/schema/index.ts` | 按版本排列的升级函数。`DB_VERSION` 等于它的长度 |
-| `upgradeV1` | `src/app/db/schema/v1.ts` | 第一版。创建 `projects` 对象仓库，`keyPath` 为 `id` |
+| 入口               | 文件                         | 定义                                                |
+| ------------------ | ---------------------------- | --------------------------------------------------- |
+| `Database.open()`  | `src/app/db/database.ts`     | 打开数据库。同一时刻复用同一次打开                  |
+| `Database.reset()` | 同上                         | 关闭进行中的打开，并删除 `local_db`                 |
+| `schemaVersions`   | `src/app/db/schema/index.ts` | 按版本排列的升级函数。`DB_VERSION` 等于它的长度     |
+| `upgradeV1`        | `src/app/db/schema/v1.ts`    | 第一版。创建 `projects` 对象仓库，`keyPath` 为 `id` |
 
 ## 使用示例
 
