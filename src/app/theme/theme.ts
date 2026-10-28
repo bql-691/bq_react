@@ -1,7 +1,7 @@
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type ResolvedTheme = 'light' | 'dark';
 
-const STORAGE_KEY = 'bq-theme';
+const STORAGE_KEY = 'bq_theme';
 const SYSTEM_QUERY = '(prefers-color-scheme: dark)';
 
 const listeners = new Set<() => void>();
