@@ -23,7 +23,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@/*": ["./src/*"] // 路径别名
+      "@app": ["./src/app/index.ts"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]

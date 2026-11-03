@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [reactRouter()],
   envDir: 'src',
   resolve: {
-    alias: { '@': path.resolve(__dirname, './src') },
+    alias: [
+      { find: '@app', replacement: path.resolve(__dirname, './src/app/index.ts') },
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+    ],
   },
 });
