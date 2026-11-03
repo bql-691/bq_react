@@ -1,0 +1,63 @@
+# 提交说明
+
+从新提交开始使用下面的格式。不改写已有历史。
+
+```text
+<type>(<scope>): <subject>
+
+<body>
+
+Doc: <恰好一篇文档的路径>
+```
+
+| type       | 何时用                                                                      | scope                                                                             |
+| ---------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `docs`     | 只撰写或修改一篇正式文档。此时用户尚未确认，提交里没有 `src/`               | 功能模块目录名，如 `editor`；基础应用写 `app-<目录名>`；项目架构写 `architecture` |
+| `feat`     | 用户已写出「文档没有问题」和「业务正常」之后，按该文档实现新行为            | 功能模块目录名，如 `editor`；基础应用写 `app-<目录名>`                            |
+| `fix`      | 用户已写出「文档没有问题」和「业务正常」之后，按该文档修正已有行为          | 功能模块目录名，如 `editor`；基础应用写 `app-<目录名>`                            |
+| `refactor` | 行为不变的结构调整。一次提交只包含一个功能模块目录，或一个 `src/app/<目录>` | 功能模块目录名，如 `editor`；基础应用写 `app-<目录名>`                            |
+| `chore`    | 脚本、依赖、`rules/`、`skills/`                                             | `chore`                                                                           |
+
+## 一次提交的范围
+
+文档和代码分开提交。同一次提交里不能同时出现 `doc/项目文档/` 和 `src/`。
+
+`docs` 只暂存这一篇正式文档。用户已回复「允许跨模块」并写出多篇正式文档路径时，按每篇文档各做一个 `docs` 提交，不把两篇正式文档放进同一次提交。
+
+`feat`、`fix`、`refactor` 只暂存一个功能模块目录，或一个 `src/app/<目录>`。用户已回复「允许跨模块」并写出多个 `src/features/<目录>` 时，按每个目录各做一个提交。这些提交不暂存 `doc/`。工作区中本次范围以外的改动保持未暂存。
+
+`docs`、`feat`、`fix` 的 `Doc:` 只能有一行，指向这次撰写或实现的那篇正式文档。用户还没有写出「文档没有问题」和「业务正常」时，不创建 `feat` 或 `fix`。
+
+## 约束
+
+- `subject` 用英文祈使句，不超过 72 个字符，不加句号。说明做了什么，不罗列文件名。
+- `body` 写原因。
+- 提交前 `.husky/pre-commit` 会跑 `format:check` 和 `lint`。不使用 `--no-verify`。
+- 不提交 `.env`、密钥和生成产物。用户没有明确要求时不执行 `git commit`，也不推送远程。
+- 钩子失败时修问题并新建一次提交。同时满足下面三件事才可以使用 `--amend`：用户明确要求 amend；这个提交是当前对话中创建的；`git status` 显示该提交尚未推送到远程。
+
+## 示例
+
+```text
+docs(editor): describe committing a shape on pointer release
+
+Record the stroke sequence before any editor code changes.
+
+Doc: doc/项目文档/功能模块/编辑器模块/绘制.md
+```
+
+```text
+feat(editor): commit a shape when the pointer is released
+
+Pointer movement only updates the draft. Project.addShape decides whether the stroke is kept.
+
+Doc: doc/项目文档/功能模块/编辑器模块/绘制.md
+```
+
+```text
+fix(app-session): return an accepted internal path after login
+
+Protocol-relative and backslash paths stay rejected.
+
+Doc: doc/项目文档/基础应用/会话(session).md
+```

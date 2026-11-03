@@ -1,0 +1,63 @@
+---
+description: 修改 src 时遵守分层、注入、路由、文案和命名硬约束
+alwaysApply: true
+---
+
+# 代码硬约束
+
+文件放置、命名和注入以 `doc/项目文档/代码撰写规范.md` 为准。业务行为以用户请求里写出路径的业务文档和模块主文档为准。用户请求里写出路径的业务文档、模块主文档、`doc/项目文档/代码撰写规范.md` 对同一件事写出不同要求时，停止实现，向用户列出这些原文。
+
+本模块指本次要改的 `src/features/<目录名>`。基础应用迭代中，本模块指文件名括号中的 `src/app/<目录>`。
+
+## 分层
+
+| 层             | 可以依赖                                                                                           |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| `domain`       | 本模块 `domain`                                                                                    |
+| `application`  | 本模块 `domain`，以及该用例要调用的 `src/app` 类                                                   |
+| `infra`        | 本模块 `domain`，以及 `src/app` 的网络、数据库、依赖注入                                           |
+| `presentation` | 本模块 `application`，以及 `doc/项目文档/项目架构.md` 数据流图里写出的其他功能模块的实体和展示组件 |
+
+`src/app` 不写业务用例。`domain` 不引用 React，也不引用 `src/app`。没有内容的层不建空目录。
+
+仓储接口只表达取出和保存聚合，不表达本地或远程。`local` 与 `remote` 留在 `application`。接口返回领域对象。
+
+聚合根是外部唯一可以修改的实体。页面和其他模块不绕过聚合根改内部实体。
+
+登录成功先形成领域结果，再由用例调用 `tokenStore.save`。`AUTH_CHANGED` 只通知界面，不是领域事件。
+
+## 注入与入口
+
+- 用例使用 `@injectable('Singleton')`。`i18n`、`http`、`externalHttp`、`tokenStore` 是模块级实例，不进入容器。功能模块从 `@app` 引用 `src/app` 的公开对象。`src/app` 内部使用相对路径。
+- ViewModel 继承 `PageViewModel`，使用 `@injectable('Transient')`。
+- 只有 `infra` 实现使用 `@bindAs`，并且写在 `@injectable` 上面。同一接口有多个实现时传入名称。
+- `src/features/<name>/<name>.ts` 只做副作用 import，不导出类，不写用例。页面文件的第一条 import 引用这个入口。
+- 副作用 import 放在文件最上方，单独成行。类型使用 `import type`。
+
+## 路由与文案
+
+- 页面默认导出。路由只登记在 `src/app/routes.ts`。
+- 需要登录的页面放进 `auth` 布局，仅访客可进的页面放进 `guest` 布局。实现一篇功能模块业务文档时，不修改 `auth.layout.tsx` 和 `guest.layout.tsx`。
+- 界面文案放进该模块的 `i18n`，同时提供 `zh` 和 `en`。页面使用 `t()`。ViewModel 和基础设施使用 `i18n.t`。
+- 跨目录 import 使用 `@/`。`src/app` 的公开对象从 `@app` 导入。同一功能模块内部使用相对路径。不引用其他模块的 `infra`。
+
+## 命名
+
+目录和文件使用小写蛇形。类使用帕斯卡。函数和钩子使用小驼峰，钩子以 `use` 开头。
+
+| 种类      | 形式                                     |
+| --------- | ---------------------------------------- |
+| 页面      | 与所在目录同名，如 `home/home.tsx`       |
+| ViewModel | `*_view_model.ts`，类名 `名称ViewModel`  |
+| 用例      | `名称Application`                        |
+| 仓储      | `*_repository.ts`，类名 `名称Repository` |
+| 接口      | 抽象类，文件 `i_` 前缀，类名 `I` 前缀    |
+| 实体      | 业务名，不加 `Entity` 后缀               |
+| 枚举      | `名称Enum`                               |
+| 文案      | `zh_cn.ts`、`en_us.ts`                   |
+| 模块入口  | 与功能目录同名                           |
+
+## 环境
+
+- 不把密钥写进 `src/.env.*` 或业务代码。进入浏览器的变量以 `VITE_` 开头。
+- 实现一篇功能模块业务文档时，不在 `package.json` 增加依赖。
