@@ -13,9 +13,15 @@ const bundles: Record<'zh' | 'en', Record<string, Messages>> = {
 export const registerMessages = (feature: string, locales: { zh: Messages; en: Messages }) => {
   bundles.zh[feature] = locales.zh;
   bundles.en[feature] = locales.en;
-  if (!i18n.isInitialized) return;
-  i18n.addResourceBundle('zh', 'translation', { [feature]: locales.zh }, true, true);
-  i18n.addResourceBundle('en', 'translation', { [feature]: locales.en }, true, true);
+  const add = () => {
+    i18n.addResourceBundle('zh', 'translation', { [feature]: locales.zh }, true, true);
+    i18n.addResourceBundle('en', 'translation', { [feature]: locales.en }, true, true);
+  };
+  if (i18n.isInitialized) {
+    add();
+    return;
+  }
+  i18n.on('initialized', add);
 };
 
 /** 构建资源 */
