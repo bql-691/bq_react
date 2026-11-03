@@ -1,5 +1,5 @@
 import { Outlet, redirect, type MiddlewareFunction } from 'react-router';
-import { hasSession } from '@/app/session/auth_session';
+import { hasSession } from '../../session/auth_session';
 import { decideRoutePolicy } from './decide_route_policy';
 
 export const clientMiddleware: MiddlewareFunction[] = [

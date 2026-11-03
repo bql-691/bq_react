@@ -7,7 +7,7 @@ export default [
       route('security', '../features/security/presentation/security/security.tsx'),
     ]),
     layout('routes/layouts/auth.layout.tsx', [
-      route('profile', '../features/security/presentation/security/profile.tsx'),
+      route('profile', '../features/security/presentation/profile/profile.tsx'),
       route(
         'projects/remote',
         '../features/project/presentation/remote_list/remote_project_list.tsx',
