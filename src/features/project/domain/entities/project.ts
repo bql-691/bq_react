@@ -24,7 +24,7 @@ export class Project extends Model({
   past: object[] = [];
   future: object[] = [];
 
-  static create(name = '未命名'): Project {
+  static create(name: string): Project {
     return new Project({
       id: crypto.randomUUID(),
       name,

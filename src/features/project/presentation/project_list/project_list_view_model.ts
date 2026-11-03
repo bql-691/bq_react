@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { makeObservable, observable, runInAction } from 'mobx';
-import { PageViewModel } from '@/app/lifecycle/page_view_model';
+import { i18n, PageViewModel } from '@app';
 import { ProjectApplication } from '../../application/project_application';
 import type { ProjectStore } from '../../domain/enum/project_store';
 import type { Project } from '../../domain/entities/project';
@@ -28,7 +28,7 @@ export class ProjectListViewModel extends PageViewModel {
     } catch (error) {
       runInAction(() => {
         this.projects = [];
-        this.errorMessage = error instanceof Error ? error.message : '加载失败';
+        this.errorMessage = error instanceof Error ? error.message : i18n.t('common.load_failed');
       });
     }
   }

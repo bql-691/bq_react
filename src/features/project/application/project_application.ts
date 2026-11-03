@@ -1,4 +1,5 @@
 import { inject, injectable, named } from 'inversify';
+import { i18n } from '@app';
 import { Project } from '../domain/entities/project';
 import { ProjectStore } from '../domain/enum/project_store';
 import { IProjectRepository } from '../domain/repositories/i_project_repository';
@@ -27,8 +28,8 @@ export class ProjectApplication {
     await this.repository(store).save(project);
   }
 
-  async create(store: ProjectStore, name = '未命名'): Promise<Project> {
-    const project = Project.create(name);
+  async create(store: ProjectStore, name?: string): Promise<Project> {
+    const project = Project.create(name ?? i18n.t('project.untitled'));
     await this.repository(store).save(project);
     return project;
   }

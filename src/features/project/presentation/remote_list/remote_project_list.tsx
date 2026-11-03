@@ -1,7 +1,9 @@
 import '../../project';
+import { useTranslation } from 'react-i18next';
 import { ProjectStore } from '../../domain/enum/project_store';
 import { ProjectListPage } from '../project_list/project_list_page';
 
 export default function RemoteProjectList() {
-  return <ProjectListPage title="云端项目" store={ProjectStore.REMOTE} />;
+  const { t } = useTranslation();
+  return <ProjectListPage title={t('project.remote')} store={ProjectStore.REMOTE} />;
 }

@@ -1,7 +1,9 @@
 import '../../project';
+import { useTranslation } from 'react-i18next';
 import { ProjectStore } from '../../domain/enum/project_store';
 import { ProjectListPage } from '../project_list/project_list_page';
 
 export default function LocalProjectList() {
-  return <ProjectListPage title="本地项目" store={ProjectStore.LOCAL} />;
+  const { t } = useTranslation();
+  return <ProjectListPage title={t('project.local')} store={ProjectStore.LOCAL} />;
 }

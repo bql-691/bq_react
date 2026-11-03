@@ -1,8 +1,6 @@
 import { injectable } from 'inversify';
 import { fromSnapshot, getSnapshot } from 'mobx-keystone';
-import { Database } from '@/app/db/database';
-import { PROJECTS_STORE } from '@/app/db/schema/v1';
-import { bindAs } from '@/app/di/bind_as';
+import { bindAs, Database, i18n, PROJECTS_STORE } from '@app';
 import { ProjectStore } from '../../domain/enum/project_store';
 import { Project } from '../../domain/entities/project';
 import { IProjectRepository } from '../../domain/repositories/i_project_repository';
@@ -21,7 +19,7 @@ export class LocalProjectRepository implements IProjectRepository {
 
   async get(id: string): Promise<Project | null> {
     const db = await this.ensure();
-    const record = await requestToPromise(
+    const record = await this.requestToPromise(
       db.transaction(PROJECTS_STORE, 'readonly').objectStore(PROJECTS_STORE).get(id),
     );
     if (!record) return null;
@@ -30,7 +28,7 @@ export class LocalProjectRepository implements IProjectRepository {
 
   async save(project: Project): Promise<void> {
     const db = await this.ensure();
-    await requestToPromise(
+    await this.requestToPromise(
       db
         .transaction(PROJECTS_STORE, 'readwrite')
         .objectStore(PROJECTS_STORE)
@@ -40,7 +38,7 @@ export class LocalProjectRepository implements IProjectRepository {
 
   private async readAll(): Promise<unknown[]> {
     const db = await this.ensure();
-    const records = await requestToPromise(
+    const records = await this.requestToPromise(
       db.transaction(PROJECTS_STORE, 'readonly').objectStore(PROJECTS_STORE).getAll(),
     );
     return Array.isArray(records) ? records : [];
@@ -49,16 +47,16 @@ export class LocalProjectRepository implements IProjectRepository {
   private async ensure(allowReset = true): Promise<IDBDatabase> {
     const db = await this.database.open();
     if (db.objectStoreNames.contains(PROJECTS_STORE)) return db;
-    if (!allowReset) throw new Error('Missing projects store');
+    if (!allowReset) throw new Error(i18n.t('project.missing_store'));
     db.close();
     await this.database.reset();
     return this.ensure(false);
   }
-}
 
-function requestToPromise<T>(request: IDBRequest<T>): Promise<T> {
-  return new Promise((resolve, reject) => {
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error ?? new Error('IndexedDB request failed'));
-  });
+  private requestToPromise<T>(request: IDBRequest<T>): Promise<T> {
+    return new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error ?? new Error(i18n.t('project.request_failed')));
+    });
+  }
 }
