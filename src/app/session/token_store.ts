@@ -1,8 +1,6 @@
-import { injectable } from 'inversify';
 import { notifyAuthChanged } from './auth_event';
 
-@injectable('Singleton')
-export class TokenStore {
+class TokenStore {
   private readonly tokenKey = '_sys_auth_token_';
   private readonly secretSalt = 'APP_PLATFORM_SALT_2026';
 
@@ -40,3 +38,5 @@ export class TokenStore {
     }
   }
 }
+
+export const tokenStore = new TokenStore();
