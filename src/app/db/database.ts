@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import { i18n } from '../i18n/i18n';
 import { DB_VERSION, schemaVersions } from './schema';
 
 // 本地数据库名称
@@ -13,8 +14,8 @@ export class Database {
     return new Promise((resolve, reject) => {
       const request = indexedDB.deleteDatabase(DB_NAME);
       request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error ?? new Error('Failed to delete IndexedDB'));
-      request.onblocked = () => reject(new Error('IndexedDB delete is blocked'));
+      request.onerror = () => reject(request.error ?? new Error(i18n.t('common.db_delete_failed')));
+      request.onblocked = () => reject(new Error(i18n.t('common.db_delete_blocked')));
     });
   }
 
@@ -26,7 +27,7 @@ export class Database {
   private connect(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
       if (typeof indexedDB === 'undefined') {
-        reject(new Error('IndexedDB is not available'));
+        reject(new Error(i18n.t('common.db_unavailable')));
         return;
       }
 
@@ -36,7 +37,7 @@ export class Database {
         const versionChange = event as IDBVersionChangeEvent;
         const transaction = request.transaction;
         if (!transaction) {
-          reject(new Error('IndexedDB upgrade transaction is missing'));
+          reject(new Error(i18n.t('common.db_upgrade_missing')));
           return;
         }
         try {
@@ -62,12 +63,12 @@ export class Database {
 
       request.onerror = () => {
         this.opening = null;
-        reject(request.error ?? new Error('Failed to open IndexedDB'));
+        reject(request.error ?? new Error(i18n.t('common.db_open_failed')));
       };
 
       request.onblocked = () => {
         this.opening = null;
-        reject(new Error('IndexedDB open is blocked by another connection'));
+        reject(new Error(i18n.t('common.db_open_blocked')));
       };
     });
   }
@@ -82,7 +83,7 @@ export class Database {
     for (let version = oldVersion; version < newVersion; version += 1) {
       const upgrade = schemaVersions[version];
       if (!upgrade) {
-        throw new Error(`Missing IndexedDB schema for version ${version + 1}`);
+        throw new Error(i18n.t('common.db_schema_missing', { version: version + 1 }));
       }
       upgrade(db, transaction);
     }
