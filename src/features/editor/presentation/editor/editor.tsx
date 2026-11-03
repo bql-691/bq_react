@@ -1,10 +1,12 @@
+import '@/features/editor/i18n';
 import '@/features/project/project';
 
 import { useEffect, type PointerEvent } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 import { useParams, useSearchParams } from 'react-router';
 import { Button } from 'antd';
-import { useViewModel } from '@/app/lifecycle/use_view_model';
+import { useViewModel } from '@app';
 import { LineShape, RectShape } from '@/features/project/domain/entities/document';
 import { DraftShape } from '../../domain/entities/draft_shape';
 import { EditorTool } from '../../domain/enum/editor_tool';
@@ -16,6 +18,7 @@ export default observer(function EditorPage() {
   const { projectId } = useParams();
   const [searchParams] = useSearchParams();
   const store = searchParams.get('store');
+  const { t } = useTranslation();
 
   useEffect(() => {
     void vm.open(projectId ?? '', store);
@@ -38,26 +41,26 @@ export default observer(function EditorPage() {
     <main className="editor-page">
       <div className="editor-toolbar">
         <Button type="link" onClick={() => (window.location.href = '/')}>
-          Home
+          {t('editor.home')}
         </Button>
-        <span>{vm.project?.name ?? 'Editor'}</span>
+        <span>{vm.project?.name ?? t('editor.title')}</span>
         <Button
           type={vm.tool === EditorTool.LINE ? 'primary' : 'default'}
           onClick={() => vm.setTool(EditorTool.LINE)}
         >
-          直线
+          {t('editor.line')}
         </Button>
         <Button
           type={vm.tool === EditorTool.RECT ? 'primary' : 'default'}
           onClick={() => vm.setTool(EditorTool.RECT)}
         >
-          矩形
+          {t('editor.rect')}
         </Button>
         <Button onClick={() => vm.undo()} disabled={!vm.canUndo}>
-          撤销
+          {t('editor.undo')}
         </Button>
         <Button onClick={() => vm.redo()} disabled={!vm.canRedo}>
-          重做
+          {t('editor.redo')}
         </Button>
       </div>
       {vm.errorMessage && <p>{vm.errorMessage}</p>}

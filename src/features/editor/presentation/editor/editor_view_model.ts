@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
-import { PageViewModel } from '@/app/lifecycle/page_view_model';
+import { i18n, PageViewModel } from '@app';
 import { ProjectApplication } from '@/features/project/application/project_application';
 import { ProjectStore } from '@/features/project/domain/enum/project_store';
 import { LineShape, RectShape } from '@/features/project/domain/entities/document';
@@ -46,14 +46,14 @@ export class EditorViewModel extends PageViewModel {
   async open(id: string, store: string | null): Promise<void> {
     if (!id || !store) {
       runInAction(() => {
-        this.errorMessage = '缺少项目';
+        this.errorMessage = i18n.t('editor.missing');
       });
       return;
     }
     const current = Object.values(ProjectStore).find((item) => item === store);
     if (!current) {
       runInAction(() => {
-        this.errorMessage = '项目存储无效';
+        this.errorMessage = i18n.t('editor.invalid_store');
       });
       return;
     }
@@ -64,11 +64,11 @@ export class EditorViewModel extends PageViewModel {
         this.project = project;
         this.store = current;
         this.draft = null;
-        this.errorMessage = project ? '' : '找不到项目';
+        this.errorMessage = project ? '' : i18n.t('editor.not_found');
       });
     } catch (error) {
       runInAction(() => {
-        this.errorMessage = error instanceof Error ? error.message : '加载失败';
+        this.errorMessage = error instanceof Error ? error.message : i18n.t('common.load_failed');
       });
     }
   }
@@ -133,7 +133,7 @@ export class EditorViewModel extends PageViewModel {
       });
     } catch (error) {
       runInAction(() => {
-        this.errorMessage = error instanceof Error ? error.message : '保存失败';
+        this.errorMessage = error instanceof Error ? error.message : i18n.t('common.save_failed');
       });
     }
   }
