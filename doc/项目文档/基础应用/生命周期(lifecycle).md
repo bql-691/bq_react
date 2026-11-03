@@ -9,12 +9,12 @@
 
 ## 功能定义
 
-生命周期负责创建页面 ViewModel，并在进入、刷新、离开时回调。
+生命周期负责创建页面 ViewModel，并在进入、刷新、挂起、恢复、离开时回调。
 
-| 入口                       | 文件                                   | 定义                                                                         |
-| -------------------------- | -------------------------------------- | ---------------------------------------------------------------------------- |
-| `PageViewModel`            | `src/app/lifecycle/page_view_model.ts` | 页面 ViewModel 的基类。回调为 `created`、`ready`、`beforeRefresh`、`dispose` |
-| `useViewModel(identifier)` | `src/app/lifecycle/use_view_model.ts`  | 从根容器取出 ViewModel，并接上上述回调                                       |
+| 入口                       | 文件                                   | 定义                                                                                                    |
+| -------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `PageViewModel`            | `src/app/lifecycle/page_view_model.ts` | 页面 ViewModel 的基类。回调为 `created`、`ready`、`beforeRefresh`、`beforeSuspend`、`resume`、`dispose` |
+| `useViewModel(identifier)` | `src/app/lifecycle/use_view_model.ts`  | 从根容器取出 ViewModel，并接上上述回调                                                                  |
 
 ## 使用示例
 
@@ -46,7 +46,9 @@ sequenceDiagram
   useViewModel->>PageViewModel: created()
   useViewModel->>PageViewModel: ready()
   useViewModel->>PageViewModel: beforeRefresh()
+  useViewModel->>PageViewModel: beforeSuspend()
+  useViewModel->>PageViewModel: resume()
   useViewModel->>PageViewModel: dispose()
 ```
 
-`created` 在首次取出实例时调用。`ready` 在效果提交后调用。窗口触发 `pagehide` 时调用 `beforeRefresh`。离开页面时去掉监听并调用 `dispose`。
+`created` 在首次取出实例时调用。`ready` 在效果提交后调用。窗口触发 `pagehide` 时调用 `beforeRefresh`。文档触发 `freeze` 时调用 `beforeSuspend`，触发 `resume` 时调用 `resume`。离开页面时去掉监听并调用 `dispose`。应用内切换路由不触发 `pagehide`、`freeze`、`resume`。
