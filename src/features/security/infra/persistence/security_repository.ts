@@ -1,7 +1,6 @@
 import { injectable } from 'inversify';
 import { getSnapshot } from 'mobx-keystone';
-import { Http } from '@/app/network/http';
-import { bindAs } from '@/app/di/bind_as';
+import { bindAs, http } from '@app';
 import { AuthCredentials } from '../../domain/entities/auth_credentials';
 import { LoginResult } from '../../domain/entities/login_result';
 import { RegisterCredentials } from '../../domain/entities/register_credentials';
@@ -16,13 +15,8 @@ type LoginResponse = {
 @bindAs(ISecurityRepository)
 @injectable('Singleton')
 export class SecurityRepository implements ISecurityRepository {
-  constructor(private http: Http) {}
-
   public async login(credentials: AuthCredentials): Promise<LoginResult> {
-    const data = (await this.http.instance.post(
-      '/auth/login',
-      getSnapshot(credentials),
-    )) as LoginResponse;
+    const data = (await http.post('/auth/login', getSnapshot(credentials))) as LoginResponse;
     const token = typeof data.token === 'string' ? data.token : '';
     const body = data.user;
     const roles = Array.isArray(body?.roles)
@@ -37,6 +31,6 @@ export class SecurityRepository implements ISecurityRepository {
   }
 
   public async register(credentials: RegisterCredentials): Promise<void> {
-    await this.http.instance.post('/auth/register', getSnapshot(credentials));
+    await http.post('/auth/register', getSnapshot(credentials));
   }
 }

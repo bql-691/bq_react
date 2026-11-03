@@ -5,8 +5,7 @@ import { Card, Tabs, Input, Button, Alert, Space } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next'; // 💡 引入 react-i18next 的渲染钩子
-import { safeInternalPath } from '@/app/session/auth_session';
-import { useViewModel } from '@/app/lifecycle/use_view_model';
+import { safeInternalPath, useViewModel } from '@app';
 import { SecurityViewModel } from './security_view_model';
 import { AuthEnum } from '../../domain/enum/auth_enum';
 

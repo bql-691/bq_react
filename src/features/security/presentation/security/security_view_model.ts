@@ -1,12 +1,11 @@
 // src/features/security/presentation/security_view_model.ts
 import { injectable } from 'inversify';
 import { makeObservable, observable, action, runInAction } from 'mobx';
+import { i18n, PageViewModel } from '@app';
 import { SecurityApplication } from '../../application/security_application';
-import { I18n } from '@/app/i18n/i18n';
 import { AuthEnum } from '../../domain/enum/auth_enum';
 import { AuthCredentials } from '../../domain/entities/auth_credentials';
 import { RegisterCredentials } from '../../domain/entities/register_credentials';
-import { PageViewModel } from '@/app/lifecycle/page_view_model';
 
 @injectable('Transient')
 export class SecurityViewModel extends PageViewModel {
@@ -17,10 +16,7 @@ export class SecurityViewModel extends PageViewModel {
   public loginForm = new AuthCredentials({});
   public registerForm = new RegisterCredentials({});
 
-  constructor(
-    private application: SecurityApplication,
-    private i18n: I18n,
-  ) {
+  constructor(private application: SecurityApplication) {
     super();
     makeObservable(this, {
       activeTab: observable,
@@ -45,7 +41,7 @@ export class SecurityViewModel extends PageViewModel {
     const currentForm = this.activeTab === AuthEnum.LOGIN ? this.loginForm : this.registerForm;
 
     if (!currentForm.isValid) {
-      this.errorMessage = this.i18n.translate(currentForm.validationErrorKey);
+      this.errorMessage = i18n.t(currentForm.validationErrorKey);
       return false;
     }
 
@@ -60,9 +56,9 @@ export class SecurityViewModel extends PageViewModel {
       runInAction(() => this.switchTab(AuthEnum.LOGIN));
       return false;
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Error';
+      const message = err instanceof Error ? err.message : '';
       runInAction(() => {
-        this.errorMessage = message;
+        this.errorMessage = message || i18n.t('common.error');
       });
       return false;
     } finally {

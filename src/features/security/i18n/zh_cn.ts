@@ -11,4 +11,5 @@ export const zhCN = {
   err_password_length: '密码长度不能少于 6 位',
   err_password_mismatch: '两次输入的密码不一致',
   err_empty: '账户凭证输入不能为空',
+  profile: '个人资料',
 };

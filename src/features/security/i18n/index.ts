@@ -1,5 +1,5 @@
 // features/security/i18n/index.ts
-import { registerMessages } from '@/app/i18n/catalog';
+import { registerMessages } from '@app';
 import { zhCN } from './zh_cn';
 import { enUS } from './en_us';
 

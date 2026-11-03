@@ -11,4 +11,5 @@ export const enUS = {
   err_password_length: 'Password must be at least 6 characters',
   err_password_mismatch: 'Passwords do not match',
   err_empty: 'Credentials cannot be empty',
+  profile: 'Profile',
 };
