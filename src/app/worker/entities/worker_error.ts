@@ -1,3 +1,5 @@
+import { i18n } from '../../i18n/i18n';
+
 export class WorkerError extends Error {
   override readonly name = 'WorkerError';
 
@@ -12,9 +14,11 @@ export class WorkerError extends Error {
   }
 
   static fromJson(value: unknown): WorkerError {
-    if (!value || typeof value !== 'object') throw new WorkerError('Invalid worker error');
+    if (!value || typeof value !== 'object')
+      throw new WorkerError(i18n.t('common.worker_invalid_error'));
     const body = value as { message?: unknown };
-    if (typeof body.message !== 'string') throw new WorkerError('Invalid worker error');
+    if (typeof body.message !== 'string')
+      throw new WorkerError(i18n.t('common.worker_invalid_error'));
     return new WorkerError(body.message);
   }
 

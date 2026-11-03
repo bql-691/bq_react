@@ -1,3 +1,4 @@
+import { i18n } from '../i18n/i18n';
 import { WorkerError } from './entities/worker_error';
 import { WorkerMessage } from './entities/worker_message';
 import { WorkerReply } from './entities/worker_reply';
@@ -35,7 +36,7 @@ export class WorkerSession {
   request<T = unknown>(message: WorkerMessage): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       if (this.stopped) {
-        reject(new WorkerError('Worker stopped after repeated crashes'));
+        reject(new WorkerError(i18n.t('common.worker_stopped')));
         return;
       }
 
@@ -73,7 +74,7 @@ export class WorkerSession {
   /** 销毁 worker 实例。 */
   dispose(): void {
     // 拒绝所有 pending 请求
-    this.failPending(new WorkerError('Worker disposed'));
+    this.failPending(new WorkerError(i18n.t('common.worker_disposed')));
     // 销毁 worker 实例
     this.worker?.terminate();
     // 清空 worker 实例
@@ -103,12 +104,12 @@ export class WorkerSession {
     worker.onerror = (event) => {
       event.preventDefault();
       // 如果监听错误，则记录崩溃次数
-      this.crash(worker, new WorkerError(event.message || 'Worker crashed'));
+      this.crash(worker, new WorkerError(event.message || i18n.t('common.worker_crashed')));
     };
     // 监听消息错误
     worker.onmessageerror = () => {
       // 如果监听消息错误，则记录崩溃次数
-      this.crash(worker, new WorkerError('Worker message could not be deserialized'));
+      this.crash(worker, new WorkerError(i18n.t('common.worker_deserialize_failed')));
     };
 
     // 设置 worker 实例

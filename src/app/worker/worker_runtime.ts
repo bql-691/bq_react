@@ -1,3 +1,4 @@
+import { i18n } from '../i18n/i18n';
 import { WorkerError } from './entities/worker_error';
 import { WorkerMessage } from './entities/worker_message';
 import { WorkerReply } from './entities/worker_reply';
@@ -47,7 +48,10 @@ export class WorkerRuntime {
       // 发送失败回复
       this.send(
         scope,
-        WorkerReply.fail(message.id, new WorkerError(`Unknown worker message: ${message.type}`)),
+        WorkerReply.fail(
+          message.id,
+          new WorkerError(i18n.t('common.worker_unknown', { type: message.type })),
+        ),
       );
       return;
     }

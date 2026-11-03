@@ -1,3 +1,4 @@
+import { i18n } from '../../i18n/i18n';
 import { WorkerError } from './worker_error';
 
 export class WorkerReply {
@@ -20,13 +21,14 @@ export class WorkerReply {
   }
 
   static fromJson(value: unknown): WorkerReply {
-    if (!value || typeof value !== 'object') throw new WorkerError('Invalid worker reply');
+    if (!value || typeof value !== 'object')
+      throw new WorkerError(i18n.t('common.worker_invalid_reply'));
     const body = value as { id?: unknown; ok?: unknown; payload?: unknown; error?: unknown };
     if (typeof body.id !== 'string' || typeof body.ok !== 'boolean') {
-      throw new WorkerError('Invalid worker reply');
+      throw new WorkerError(i18n.t('common.worker_invalid_reply'));
     }
     if (body.ok) {
-      if (!('payload' in body)) throw new WorkerError('Invalid worker reply');
+      if (!('payload' in body)) throw new WorkerError(i18n.t('common.worker_invalid_reply'));
       return WorkerReply.ok(body.id, body.payload);
     }
     return WorkerReply.fail(body.id, WorkerError.fromJson(body.error));
