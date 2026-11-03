@@ -3,4 +3,6 @@ export abstract class PageViewModel {
   ready(): void {}
   dispose(): void {}
   beforeRefresh(): void {}
+  beforeSuspend(): void {}
+  resume(): void {}
 }

@@ -13,9 +13,15 @@ export function useViewModel<T extends PageViewModel>(identifier: Newable<T>): T
   useEffect(() => {
     viewModel.ready();
     const onPageHide = () => viewModel.beforeRefresh();
+    const onFreeze = () => viewModel.beforeSuspend();
+    const onResume = () => viewModel.resume();
     window.addEventListener('pagehide', onPageHide);
+    document.addEventListener('freeze', onFreeze);
+    document.addEventListener('resume', onResume);
     return () => {
       window.removeEventListener('pagehide', onPageHide);
+      document.removeEventListener('freeze', onFreeze);
+      document.removeEventListener('resume', onResume);
       viewModel.dispose();
     };
   }, [viewModel]);
