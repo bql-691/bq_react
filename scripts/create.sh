@@ -2,15 +2,20 @@
 # 创建项目，并把源码中的 bq 前缀换成项目名。
 # 远程: curl -fsSL https://raw.githubusercontent.com/bql-691/bq_react/v0.1.1/scripts/create.sh | bash -s -- shop
 # 本地: bash scripts/create.sh local /path/to/shop
+# 可选: --no-doc 不带 doc；--no-rules 不带 rules、skills 及 .cursor 副本
 set -euo pipefail
 
 OWNER="bql-691"
 REPO="bq_react"
 REF="${BQ_REF:-v0.1.1}"
+NO_DOC=0
+NO_RULES=0
 
 usage() {
-  echo "远程: curl -fsSL https://raw.githubusercontent.com/${OWNER}/${REPO}/${REF}/scripts/create.sh | bash -s -- <项目名>" >&2
-  echo "本地: bash scripts/create.sh local <目录>" >&2
+  echo "远程: curl -fsSL https://raw.githubusercontent.com/${OWNER}/${REPO}/${REF}/scripts/create.sh | bash -s -- [--no-doc] [--no-rules] <项目名>" >&2
+  echo "本地: bash scripts/create.sh local [--no-doc] [--no-rules] <目录>" >&2
+  echo "--no-doc    不带 doc 目录及其内部文件" >&2
+  echo "--no-rules  不带 rules、skills，以及 .cursor 中的副本" >&2
   echo "项目名需为小写字母开头，只含小写字母、数字和连字符" >&2
 }
 
@@ -28,9 +33,23 @@ require_node() {
   }
 }
 
+omit_optional() {
+  local dest="$1"
+  if [[ "$NO_DOC" == 1 ]]; then
+    rm -rf "$dest/doc"
+    echo "未包含 doc 目录"
+  fi
+  if [[ "$NO_RULES" == 1 ]]; then
+    rm -rf "$dest/rules" "$dest/skills" "$dest/.cursor/rules" "$dest/.cursor/skills"
+    rmdir "$dest/.cursor" 2>/dev/null || true
+    echo "未包含 rules 与 skills"
+  fi
+}
+
 finish_project() {
   local name="$1"
   local dest="$2"
+  omit_optional "$dest"
   node "$dest/scripts/apply-name.mjs" "$name" "$dest"
   rm -rf "$dest/scripts"
   git init -b main "$dest" >/dev/null
@@ -127,10 +146,29 @@ create_local() {
   finish_project "$name" "$dest"
 }
 
-if [[ "${1:-}" == "local" ]]; then
-  create_local "${2:-}"
-elif [[ -n "${1:-}" ]]; then
-  create_remote "$1"
+positionals=()
+for arg in "$@"; do
+  case "$arg" in
+    --no-doc) NO_DOC=1 ;;
+    --no-rules) NO_RULES=1 ;;
+    --) ;;
+    -*)
+      echo "未知参数: $arg" >&2
+      usage
+      exit 1
+      ;;
+    *) positionals+=("$arg") ;;
+  esac
+done
+
+if [[ "${positionals[0]:-}" == "local" ]]; then
+  if [[ "${#positionals[@]}" -ne 2 ]]; then
+    usage
+    exit 1
+  fi
+  create_local "${positionals[1]}"
+elif [[ "${#positionals[@]}" -eq 1 ]]; then
+  create_remote "${positionals[0]}"
 else
   usage
   exit 1

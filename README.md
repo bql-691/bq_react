@@ -34,6 +34,15 @@ bash scripts/create.sh local /path/to/shop
 
 `/path/to/shop` 的项目名是 `shop`。目标目录不能已经存在，也不能放在模板仓库里面。
 
+两个参数可以单独使用，也可以一起使用，位置在项目名或目录的前后都行。
+
+- `--no-doc`：不带 `doc` 目录及其内部文件
+- `--no-rules`：不带 `rules`、`skills`，以及 `.cursor` 中的副本
+
+```bash
+bash scripts/create.sh local /path/to/shop --no-doc --no-rules
+```
+
 ## 开发这个模板
 
 ```bash
